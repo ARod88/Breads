@@ -1,6 +1,7 @@
 // DEPENDENCIES
 const express = require("express");
 const methodOverride = require("method-override");
+const mongoose = require ("mongoose")
 
 // CONFIGURATION
 require("dotenv").config();
@@ -8,6 +9,12 @@ const PORT = process.env.PORT;
 console.log("My port is:", PORT);
 
 const app = express();
+
+mongoose.set("strictQuery", true);
+mongoose.connect(process.env.MONGO_URI, {useNewUrlParser: true, useUnifiedTopology: true},() => { 
+console.log('connected to MONGO')
+})
+
 
 // MIDDLEWARE
 app.set("views", __dirname + "/views");
@@ -25,6 +32,10 @@ app.get("/", (req, res) => {
 // Bread ROUTES
 const breadsController = require("./controllers/breads_controller.js");
 app.use("/breads", breadsController);
+
+//Baker Routes
+const bakersController = require("./controllers/bakers_controller.js");
+app.use("/bakers", bakersController);
 
 // 404 Page
 app.get("*", (req, res) => {
