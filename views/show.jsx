@@ -5,7 +5,7 @@ const Show = ({ bread }) => {
     // console.log(bread.name);
     return (
         <Default>
-            <h2>Show Page</h2>
+            <h2>Bread Show Page</h2>
             <h3>{bread.name} bread</h3>
             <p>
                 and it
@@ -13,7 +13,7 @@ const Show = ({ bread }) => {
                 have gluten.
             </p>
             <img width="480" src={bread.image} alt={bread.name} />
-            <p> Baked with ❤️ by </p>
+            <p>{bread.getBakedBy()}</p>
             <li>
                 <a href="/breads">Go home</a>
             </li>

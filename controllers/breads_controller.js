@@ -2,14 +2,17 @@ const express = require("express");
 const breads = express.Router();
 
 const Bread = require("../models/bread.js");
-const Baker = require ("../models/baker.js");
+const Baker = require("../models/baker.js");
 
 // INDEX - READ ALL
 breads.get("/", (req, res) => {
-    Bread.find().then((foundBreads) => {
-        res.render("index", {
-            breads: foundBreads,
-            title: "Index page",
+    Baker.find().then((foundBakers) => {
+        Bread.find().then((foundBreads) => {
+            res.render("index", {
+                breads: foundBreads,
+                bakers: foundBakers,
+                title: "Index page",
+            });
         });
     });
 });
@@ -19,15 +22,18 @@ breads.get("/new", (req, res) => {
     Baker.find().then((foundBakers) => {
         res.render("new", { title: "New bread", bakers: foundBakers });
     });
-    
 });
 
 // EDIT Bread Form
 breads.get("/:id/edit", (req, res) => {
     const id = req.params.id;
-    Bread.findById(id).then((foundBread) => {
-        res.render("edit", {
-            bread: foundBread,
+
+    Baker.find().then((foundBakers) => {
+        Bread.findById(id).then((foundBread) => {
+            res.render("edit", {
+                bread: foundBread,
+                bakers: foundBakers,
+            });
         });
     });
 });
@@ -36,11 +42,12 @@ breads.get("/:id/edit", (req, res) => {
 breads.get("/:id", (req, res) => {
     const id = req.params.id;
     Bread.findById(id)
+        .populate("baker")
         .then((foundBread) => {
             if (foundBread === null) {
                 res.send("404 - Bread not found");
             } else {
-
+                console.log(foundBread.getBakedBy());
                 res.render("show", {
                     bread: foundBread,
                 });

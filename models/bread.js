@@ -20,10 +20,9 @@ baker: {
 
 // helper methods
 // helper methods 
-breadSchema.methods.getBakedBy = function(){
-    return `${this.name} was baked with love by ${this.baker}`
-  }
-  
+breadSchema.methods.getBakedBy = function() {
+    let bakedByMe  
+}
 
 
 // create bread model
